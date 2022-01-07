@@ -3,6 +3,10 @@ package br.com.adriano.spring.data.service;
 import java.util.Optional;
 import java.util.Scanner;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.adriano.spring.data.orm.Cargo;
@@ -175,8 +179,18 @@ public class CrudFuncionarioService {
 
 	}
 	private void visualizar() {
-		Iterable<Funcionario> funcionarios= funcionarioRepository
-				.findAll();
+		Scanner scanner=new Scanner(System.in);
+		System.out.println("Qual página você deseja visualizar ?");
+		Integer page = scanner.nextInt();
+		
+		Pageable pageable = PageRequest.of(page,1,Sort.by(Sort.Direction.ASC,"salario"));
+		
+		Page<Funcionario> funcionarios= funcionarioRepository
+				.findAll(pageable);
+		
+		System.out.println(funcionarios);
+		System.out.println("Página atual: "+funcionarios.getNumber());
+		System.out.println("Total de elementos: "+funcionarios.getTotalElements());
 		System.out.println("------------------------");
 		funcionarios.forEach(funcionario->System.out.println(funcionario
 				));
