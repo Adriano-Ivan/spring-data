@@ -10,14 +10,11 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import br.com.adriano.spring.data.orm.Funcionario;
+import br.com.adriano.spring.data.orm.FuncionarioProjecao;
 
 @Repository
 public interface FuncionarioRepository extends PagingAndSortingRepository<Funcionario, Long>{
 	List<Funcionario> findByNome(String nome);
-	
-	// Nome extenso
-//	List<Funcionario> findByNomeAndSalarioGreaterThanAndDataContratacao(String nome,
-//			Double salario, LocalDate dataContratacao);
 	
 	List<Funcionario> findByCargoDescricao(String descricao);
 	
@@ -29,4 +26,10 @@ public interface FuncionarioRepository extends PagingAndSortingRepository<Funcio
 	List<Funcionario> findNomeSalarioMaiorDataContratacao(String nome,
 			BigDecimal salario, LocalDate dataContratacao);
 	
+	@Query(value="SELECT f.id,f.nome,f.salario FROM funcionarios as f",
+			nativeQuery=true)
+	List<FuncionarioProjecao> findFuncionarioSalario();
+	// Nome extenso
+//	List<Funcionario> findByNomeAndSalarioGreaterThanAndDataContratacao(String nome,
+//			Double salario, LocalDate dataContratacao);
 }

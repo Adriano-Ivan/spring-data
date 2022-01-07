@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.adriano.spring.data.orm.Cargo;
 import br.com.adriano.spring.data.orm.Funcionario;
+import br.com.adriano.spring.data.orm.FuncionarioProjecao;
 import br.com.adriano.spring.data.repository.CargoRepository;
 import br.com.adriano.spring.data.repository.FuncionarioRepository;
 
@@ -33,6 +34,7 @@ public class RelatoriosService {
 			System.out.println("1 - Buscar funcionário por nome");
 			System.out.println("2 - Buscar funcionário por nome, data contratação e mínima faixa de salário");
 			System.out.println("3 - Buscar por data de contratação mínima ");
+			System.out.println("4 - Apresentar ids, nomes e salários");
 			int action = scanner.nextInt();
 			switch(action) {
 			case 1:
@@ -43,6 +45,9 @@ public class RelatoriosService {
 				break;
 			case 3:
 				buscaFuncionarioApartirDeDataContratacao();
+				break;
+			case 4:
+				buscaFuncionarioSalario();
 				break;
 			default:
 				system=false;
@@ -98,5 +103,14 @@ public class RelatoriosService {
 		System.out.println();
 		lista.forEach(System.out::println);
 		System.out.println();
+	}
+	
+	private void buscaFuncionarioSalario() {
+		List<FuncionarioProjecao> lista =funcionarioRepository
+				.findFuncionarioSalario();
+		
+		lista.forEach(f->System.out.println("Funcionário -> id: "+
+		f.getId()+", nome: "+f.getNome() +", salário: "+
+				f.getSalario()));
 	}
 }
